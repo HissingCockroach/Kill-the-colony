@@ -39,7 +39,8 @@ d = False
 level = 2
 score = 0
 splat_image = pygame.image.load(image_from_url(Splat_URL))
-bug_image = pygame.image.load(image_from_url(Bug_URL))
+bug = pygame.image.load(image_from_url(Bug_URL))
+bug_image = pygame.transform.scale(bug, (85,70))
 Flyswatter = pygame.image.load(image_from_url(Flyswatter_URL))
 Flyswatterhit = pygame.image.load(image_from_url(Hit_URL))
 myfont = pygame.font.SysFont("Lucida Console", 30)
@@ -47,14 +48,16 @@ myfont2 = pygame.font.SysFont("Lucida Console", 100)
 myfont3 = pygame.font.SysFont("Comic Sans MS", 80)
 place = [(800,298) , (800,200) , (800,80) , (800,500)]
 setplace = random.choice(place)
+splt = False
 Flyswatter_strike = pygame.transform.rotate(Flyswatter, 180)
 label = myfont.render("Play", 1 , BLACK)
 label4 = myfont.render("Quit", 1, BLACK)
 label3 = myfont3.render("Kill The Colony", 1, YELLOW)
 label2 = myfont2.render("GAME OVER", 1, RED)
-wat = 0
+i = 255
 flyswatter_rect = Flyswatter.get_rect(topleft=(-25,298))
 bug_rect = bug_image.get_rect(topleft=(setplace))
+splatrect = splat_image.get_rect()
 hit = False
 l = False
 strike = False
@@ -76,7 +79,7 @@ while True:
         DISPLAYSURF.blit(Flyswatter, flyswatter_rect)
     DISPLAYSURF.blit(bug_image, bug_rect)
 
-    if l and not hit:
+    if p:
         bug_rect.x -= level
 
     if p == False:
@@ -103,15 +106,19 @@ while True:
             if key[pygame.K_RETURN]:
                 pygame.quit()
     
-    if key[pygame.K_SPACE] and flyswatter_rect.colliderect(bug_rect):
+    if key[pygame.K_SPACE] and flyswatter_rect.colliderect(bug_rect) and l:
+        splt = True
         place = [(800,500) , (800,80) , (800,200) , (800,298)]
         setplace = random.choice(place)
         bug_rect = bug_image.get_rect(topleft=(setplace))
+        DISPLAYSURF.blit(bug_image, bug_rect)
         level += 0.5
         score += 1
         Flyswatter_hit = pygame.transform.rotate(Flyswatterhit, 290)
         DISPLAYSURF.blit(Flyswatter_hit, flyswatter_rect)
         DISPLAYSURF.blit(bug_image, bug_rect)
+
+        
 
         
 
